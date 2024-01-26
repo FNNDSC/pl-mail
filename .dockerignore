@@ -1,4 +1,7 @@
-/__
+.git/
+.github/
+.dockerignore
+Dockerfile
 
 *~
 *.DS_Store
@@ -10,4 +13,7 @@ __pycache__/
 .idea/
 .vscode/
 
+examples/
+
 venv/
+/__
