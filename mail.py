@@ -64,7 +64,7 @@ def _args_or_filename(arg, filename, err_msg):
         return f.read().strip()
 
 
-def _filename_or_args(filename, arg, err_msg):
+def _filename_or_args(arg, filename, err_msg):
     if os.path.exists(filename):
         with open(filename, 'r') as f:
             return f.read().strip()
