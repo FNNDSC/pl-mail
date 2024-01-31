@@ -35,25 +35,28 @@ parser.add_argument('-m', '--mailserver', type=str, required=False, default='pos
     log         = 'Email',
 )
 def main(options: Namespace, inputdir: Path, outputdir: Path):
-    filename = os.sep.join([inputdir, 'rcpt'])
-    rcpt = _args_or_filename(options.rcpt, filename, 'Email: no --rcpt and no [inputdir]/rcpt')
+    inputdir_str = str(inputdir)
+    outputdir_str = str(outputdir)
+    print(f'inputdir: {inputdir_str} outputdir: {outputdir_str}')
+    filename = os.sep.join([inputdir_str, 'rcpt'])
+    rcpt = _filename_or_arg(options.rcpt, filename, 'Email: no [inputdir]/rcpt and no --rcpt')
 
-    filename = os.sep.join([inputdir, 'title'])
-    title = _args_or_filename(options.title, filename, 'Email: no --title and no [inputdir]/title')
+    filename = os.sep.join([inputdir_str, 'title'])
+    title = _filename_or_arg(options.title, filename, 'Email: no [inputdir]/title and no --title')
 
-    filename = os.sep.join([inputdir, 'content'])
-    content = _args_or_filename(options.content, filename, 'Email: no --content and no [inputdir]/content')
+    filename = os.sep.join([inputdir_str, 'content'])
+    content = _filename_or_arg(options.content, filename, 'Email: no [inputdir]/content and no --content')
 
-    filename = os.sep.join([inputdir, 'sender'])
-    sender = _filename_or_args(options.sender, filename, 'Email: no --sender and no [inputdir]/sender')
+    filename = os.sep.join([inputdir_str, 'sender'])
+    sender = _filename_or_arg(options.sender, filename, 'Email: no --sender and no [inputdir]/sender')
 
-    filename = os.sep.join([inputdir, 'mailserver'])
-    mail_server = _filename_or_args(options.mailserver, filename, 'Email: no --mailserver and no [inputdir]/mailserver')
+    filename = os.sep.join([inputdir_str, 'mailserver'])
+    mail_server = _filename_or_arg(options.mailserver, filename, 'Email: no --mailserver and no [inputdir]/mailserver')
 
     _send_email(title=title, content=content, recipients=rcpt, mail_server=mail_server, sender=sender)
 
 
-def _args_or_filename(arg, filename, err_msg):
+def _arg_or_filename(arg, filename, err_msg):
     if arg:
         return arg
 
@@ -64,7 +67,7 @@ def _args_or_filename(arg, filename, err_msg):
         return f.read().strip()
 
 
-def _filename_or_args(arg, filename, err_msg):
+def _filename_or_arg(arg, filename, err_msg):
     if os.path.exists(filename):
         with open(filename, 'r') as f:
             return f.read().strip()
